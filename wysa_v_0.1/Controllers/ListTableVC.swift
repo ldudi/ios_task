@@ -16,6 +16,7 @@ class ListTableVC: UITableViewController {
         self.title = "List Orders"
         tableView.register(ListCell.self, forCellReuseIdentifier: "listcell")
         setupNavBar()
+        addData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,4 +58,21 @@ class ListTableVC: UITableViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
+}
+
+// MARK: - adding hardcoded data to fill order list
+extension ListTableVC {
+    func addData() {
+        var jiminy = Order()
+        jiminy.firstName = "Jiminy"
+        jiminy.LastName = "Cricket"
+        jiminy.phone = "0123456789"
+        jiminy.email = "jiminy@disney"
+        jiminy.street1 = "carlo"
+        jiminy.street2 = "collodi"
+        jiminy.city = "martin"
+        jiminy.state = "myrna"
+        jiminy.zip = "1940"
+        for _ in 1...5 { orders.append(jiminy)}
+    }
 }
