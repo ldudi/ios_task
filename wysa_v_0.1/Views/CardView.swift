@@ -12,7 +12,8 @@ public class CardView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = .lightGray
+        // MARK: - base class for shadowie card
+        self.backgroundColor = .darkGray
         self.layer.cornerRadius = 7
         let shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: 7)
         self.layer.masksToBounds = false

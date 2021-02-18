@@ -24,6 +24,8 @@ class OrderDetailsView: UIView {
         setupLabels()
     }
     
+    
+    // MARK: - all labels that contains info about order places
     func setupLabels() {
         dateLabel.text = "Order Date:"
         leftLabels(label: dateLabel)
@@ -78,14 +80,14 @@ class OrderDetailsView: UIView {
     
     func leftLabels(label: UILabel) {
         label.textAlignment = .right
-        label.backgroundColor = .lightGray
+        label.backgroundColor = .darkGray
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.medium)
     }
     
     func rightLabels(label: UILabel) {
         label.textAlignment = .left
-        label.backgroundColor = .lightGray
+        label.backgroundColor = .darkGray
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.medium)
     }

@@ -9,7 +9,6 @@ import UIKit
 
 
 protocol CreateOrderCellDelegate: class {
-    func textField(editingDidBeginIn cell: CreateOrderCell)
     func textField(editingChangedInTextField newText: String, in cell: CreateOrderCell)
 }
 
@@ -19,6 +18,8 @@ public class CreateOrderCell: UITableViewCell {
     
     var label: UILabel!
     var textField: UITextField!
+    weak var delegate: CreateOrderCellDelegate?
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -32,11 +33,8 @@ public class CreateOrderCell: UITableViewCell {
         addSubview(label)
         addSubview(textField)
         
-        
         label.translatesAutoresizingMaskIntoConstraints = false
         textField.translatesAutoresizingMaskIntoConstraints = false
-        
-        
         
         NSLayoutConstraint.activate(
             [label.centerYAnchor.constraint(equalTo: self.centerYAnchor),
@@ -46,6 +44,10 @@ public class CreateOrderCell: UITableViewCell {
              textField.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.7),
              textField.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: 20),
              textField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20)])
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didSelectCell))
+        addGestureRecognizer(gesture)
+        
     }
     
     func configLabel() {
@@ -56,22 +58,18 @@ public class CreateOrderCell: UITableViewCell {
         textField.borderStyle = .roundedRect
         textField.font = UIFont.systemFont(ofSize: 20)
         textField.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        textField.addTarget(self, action: #selector(textFieldValueChanged(_:)), for: .editingChanged)
         
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//        // Initialization code
-//    }
-//
-//    override func setSelected(_ selected: Bool, animated: Bool) {
-//        super.setSelected(selected, animated: animated)
-//
-//        // Configure the view for the selected state
-//    }
+}
 
+extension CreateOrderCell {
+    @objc func didSelectCell() { textField.becomeFirstResponder()}
+    @objc func textFieldValueChanged(_ sender: UITextField) {
+        if let text = sender.text { delegate?.textField(editingChangedInTextField: text, in: self)}
+    }
 }

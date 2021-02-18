@@ -9,21 +9,23 @@ import UIKit
 
 class OrderDetailsVC: UIViewController {
     
-    var orderView = CardView()
-    var priceView = CardView()
-    var detailsView = OrderDetailsView()
-    var priceLabel = UILabel()
+    var index = Int()
+    var orderSubViews = OrderSubViews()
     
-    
+    // MARK: - view life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Order Details"
-        view.backgroundColor = .white
-        addEditBtn()
+        view.backgroundColor = .lightGray
         setupOrderView()
-        setupPriceView()
+        addEditBtn()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        setupOrderView()
+    }
+    
+    // MARK: - edit button on navigation bar
     func addEditBtn() {
         let editBtn = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(goToEditVC))
         self.navigationItem.rightBarButtonItem = editBtn
@@ -31,46 +33,29 @@ class OrderDetailsVC: UIViewController {
     
     @objc func goToEditVC() {
         let vc: CreateOrderVC = CreateOrderVC(style: .insetGrouped)
+        vc.index = index
+        vc.isEditingOrder = true
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+    // MARK: - view that contains detail labels and price label
     func setupOrderView() {
-        orderView = CardView(frame: CGRect.zero)
-        view.addSubview(orderView)
-        orderView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([orderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                                     orderView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-                                     orderView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.7),
-                                     orderView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8)])
+        orderSubViews = OrderSubViews(frame: self.view.frame)
+        view.addSubview(orderSubViews)
         
-        detailsView = OrderDetailsView(frame: orderView.bounds)
-        orderView.addSubview(detailsView)
-        detailsView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([detailsView.centerXAnchor.constraint(equalTo: orderView.centerXAnchor),
-                                     detailsView.centerYAnchor.constraint(equalTo: orderView.centerYAnchor),
-                                     detailsView.heightAnchor.constraint(equalTo: orderView.heightAnchor),
-                                     detailsView.widthAnchor.constraint(equalTo: orderView.widthAnchor)])
+        orderSubViews.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([orderSubViews.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                                     orderSubViews.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                                     orderSubViews.topAnchor.constraint(equalTo: view.topAnchor),
+                                     orderSubViews.bottomAnchor.constraint(equalTo: view.bottomAnchor)])
+        
+        let name = "\(orders[index].firstName!) \(orders[index].LastName!)"
+        orderSubViews.detailsView.yourName.text = name
+        orderSubViews.detailsView.youremail.text = orders[index].email
+        orderSubViews.detailsView.yourId.text = "qwerty#123"
+        orderSubViews.detailsView.yourdate.text = orders[index].date
+        orderSubViews.priceLabel.text = "Order Total:  $\(orders[index].price!)"
+
     }
     
-    func setupPriceView() {
-        priceView = CardView(frame: CGRect.zero)
-        priceView.backgroundColor = .darkGray
-        view.addSubview(priceView)
-        priceView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([priceView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-                                     priceView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30),
-                                     priceView.heightAnchor.constraint(equalToConstant: 50),
-                                     priceView.widthAnchor.constraint(equalToConstant: 250)])
-        priceLabel.text = "Order Total:  $39.99"
-        priceLabel.backgroundColor = .darkGray
-        priceLabel.font = UIFont.italicSystemFont(ofSize: 21)
-        priceLabel.textAlignment = .center
-        priceLabel.textColor = .white
-        priceView.addSubview(priceLabel)
-        priceLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([priceLabel.centerXAnchor.constraint(equalTo: priceView.centerXAnchor),
-                                     priceLabel.centerYAnchor.constraint(equalTo: priceView.centerYAnchor),
-                                     priceLabel.heightAnchor.constraint(equalTo: priceView.heightAnchor, multiplier: 0.9),
-                                     priceLabel.widthAnchor.constraint(equalTo: priceView.widthAnchor, multiplier: 0.9)])
-    }
 }
