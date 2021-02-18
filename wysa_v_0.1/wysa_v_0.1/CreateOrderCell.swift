@@ -7,7 +7,15 @@
 
 import UIKit
 
-class CreateOrderCell: UITableViewCell {
+
+protocol CreateOrderCellDelegate: class {
+    func textField(editingDidBeginIn cell: CreateOrderCell)
+    func textField(editingChangedInTextField newText: String, in cell: CreateOrderCell)
+}
+
+
+public class CreateOrderCell: UITableViewCell {
+    
     
     var label: UILabel!
     var textField: UITextField!
@@ -55,15 +63,15 @@ class CreateOrderCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+//    override func awakeFromNib() {
+//        super.awakeFromNib()
+//        // Initialization code
+//    }
+//
+//    override func setSelected(_ selected: Bool, animated: Bool) {
+//        super.setSelected(selected, animated: animated)
+//
+//        // Configure the view for the selected state
+//    }
 
 }

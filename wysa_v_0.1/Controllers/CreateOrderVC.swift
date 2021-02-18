@@ -19,10 +19,12 @@ class CreateOrderVC: UITableViewController {
     var cityCell = CreateOrderCell()
     var stateCell = CreateOrderCell()
     var zipCell = CreateOrderCell()
-
+    
+    var createOrderCellList = CreateOrderCellList()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         title = "Create Order"
         setupSaveButton()
         setupCells()
@@ -85,7 +87,6 @@ class CreateOrderVC: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         switch indexPath.section {
         case 0:
                 switch indexPath.row {
@@ -108,4 +109,6 @@ class CreateOrderVC: UITableViewController {
             fatalError("unknown number of section in create order vc")
         }
     }
+    
 }
+
